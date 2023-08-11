@@ -1,3 +1,4 @@
+/*
 import { createObjects } from './data';
 const WIDTH = 45;
 const HEIGHT = 40;
@@ -33,11 +34,12 @@ const createImage = (objectKey) => {
   newImage.src = objectKey;
   return newImage;
 };
-const advertList = createObjects();
 
 
 const renderAdvert = ()=>{
   const listFragment = document.createDocumentFragment();
+  const advertList = createObjects();
+
   advertList.forEach((item)=>{
     const advertElement = advertTemplate.cloneNode(true);
     const popupFeatureItems = advertElement.querySelectorAll('.popup__feature');
@@ -81,5 +83,7 @@ const renderAdvert = ()=>{
     listFragment.appendChild(advertElement);
   });
   advertContainer.appendChild(listFragment);
-};
+
+};*/
+const renderAdvert = ()=>{};
 export {renderAdvert};
