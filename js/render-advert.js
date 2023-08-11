@@ -89,7 +89,7 @@ const renderAdvert = ()=>{
   const ArrayofObjects = () => Array.from({length:COUNT_BOOKING}, (_, index)=>createObjects(index));
   const listFragment = document.createDocumentFragment();
   const advertList = ArrayofObjects();
-  console.log('advertList',advertList[0],advertList[1].author.avatar);
+  console.log('advertList',advertList[0],advertList[0].author.avatar);
 
   const advertElement = advertTemplate.cloneNode(true);
   const popupFeatureItems = advertElement.querySelectorAll('.popup__feature');
