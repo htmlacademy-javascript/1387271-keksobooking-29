@@ -1,7 +1,8 @@
 
-import { createObjects } from './data';
+import { createObjects } from './data.js';
 const WIDTH = 45;
 const HEIGHT = 40;
+const COUNT_BOOKING = 10;
 const offerType = {
   flat : 'Квартира',
   bungalow: 'Бунгало',
@@ -23,7 +24,7 @@ const OFFER_KEYS = {
   photos: 'photos',
 };
 const advertContainer = document.querySelector('.map__canvas');
-const advertTemplate = document.querySelector('#card').content.querySelector('.popap');
+const advertTemplate = document.querySelector('#card').content.querySelector('.popup');
 //создание фото
 const createImage = (objectKey) => {
   const newImage = document.createElement('img');
@@ -34,7 +35,6 @@ const createImage = (objectKey) => {
   newImage.src = objectKey;
   return newImage;
 };
-
 
 /*const renderAdvert = ()=>{
   const listFragment = document.createDocumentFragment();
@@ -86,21 +86,22 @@ const createImage = (objectKey) => {
 
 };*/
 const renderAdvert = ()=>{
+  const ArrayofObjects = () => Array.from({length:COUNT_BOOKING}, (_, index)=>createObjects(index));
   const listFragment = document.createDocumentFragment();
-  const advertList = createObjects();
-
+  const advertList = ArrayofObjects();
+  console.log('advertList',advertList[0],advertList[1].author.avatar);
 
   const advertElement = advertTemplate.cloneNode(true);
   const popupFeatureItems = advertElement.querySelectorAll('.popup__feature');
   const popupPhotoList = advertElement.querySelector('.popup__photos');
   const popupPhotos = popupPhotoList.querySelector('.popup__photo');
 
-  Object.keys(advertList.offer).forEach((key) => {
+  Object.keys(advertList[0].offer).forEach((key) => {
     if (!key) {
       advertElement.querySelector(`.popup__${OFFER_KEYS[key]}`).remove();
     }
   });
-  advertElement.querySelector('title').textContent = advertList[0].offer.title;
+  advertElement.querySelector('.popup__title').textContent = advertList[0].offer.title;
   advertElement.querySelector('.popup__text--address').textContent = advertList[0].offer.address;
   advertElement.querySelector('.popup__text--price').firstChild.data = advertList[0].offer.price;
   advertElement.querySelector('.popup__type').textContent = offerType[advertList[0].offer.type];
@@ -132,7 +133,7 @@ const renderAdvert = ()=>{
   listFragment.appendChild(advertElement);
 
   advertContainer.appendChild(listFragment);
-
+  return advertContainer;
 };
 
 export {renderAdvert};

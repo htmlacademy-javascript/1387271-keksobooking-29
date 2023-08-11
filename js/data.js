@@ -12,7 +12,8 @@ const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/ke
 
 //создание объекта
 const createObjects = (id)=>({
-  autor:getImgString(id),
+  author:{
+    avatar:getImgString(id)},
   offer:{
     title:'Лучшее предложение!',
     address: `${getLocation(LAT_RANGE[0],LAT_RANGE[1])} ${getLocation(LNG_RANGE[0],LNG_RANGE[1])}`,

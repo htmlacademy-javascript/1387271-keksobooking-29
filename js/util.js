@@ -24,7 +24,7 @@ const randomizeArr = (arr) => {
 const getImgString = (i)=>{
   ++i;
   const imgNum = i < 10 ? `0${i}` : i;
-  return `img/avatars/user${imgNum}.svg`;
+  return `img/avatars/user${imgNum}.png`;
 };
 const getLocation = (a,b)=>{
   const result = getRandomFloat(a,b);
