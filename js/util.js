@@ -30,4 +30,53 @@ const getLocation = (a,b)=>{
   const result = getRandomFloat(a,b);
   return result;
 };
+/*const renderAdvert = ()=>{
+  const listFragment = document.createDocumentFragment();
+  const advertList = createObjects();
+
+  advertList.forEach((item)=>{
+    const advertElement = advertTemplate.cloneNode(true);
+    const popupFeatureItems = advertElement.querySelectorAll('.popup__feature');
+    const popupPhotoList = advertElement.querySelector('.popup__photos');
+    const popupPhotos = popupPhotoList.querySelector('.popup__photo');
+
+    Object.keys(advertList.offer).forEach((key) => {
+      if (!key) {
+        advertElement.querySelector(`.popup__${OFFER_KEYS[key]}`).remove();
+      }
+    });
+    advertElement.querySelector('title').textContent = item.offer.title;
+    advertElement.querySelector('.popup__text--address').textContent = item.offer.address;
+    advertElement.querySelector('.popup__text--price').firstChild.data = item.offer.price;
+    advertElement.querySelector('.popup__type').textContent = offerType[item.offer.type];
+    advertElement.querySelector('.popup__description').textContent = item.offer.description;
+    advertElement.querySelector('.popup__text--time').textContent = `Заезд после ${item.offer.checkin} выезд до ${item.offer.checkout}`;
+    if (item.offer.features) {
+      const modifiers = item.offer.features.map((feature) => `popup__feature--${feature}`);
+      popupFeatureItems.forEach((popupFeatureItem) => {
+        const modifier = popupFeatureItem.classList[1];
+        if (!modifiers.includes(modifier)) {
+          popupFeatureItem.remove();
+        }
+      });
+    } else {
+      advertElement.querySelector('.popup__features').remove();
+    }
+    if (item.offer.photos) {
+      item.offer.photos.forEach((photo) => popupPhotoList.appendChild(createImage(photo)));
+    } else {
+      advertElement.querySelector('.popup__photos').remove();
+    }
+    popupPhotos.remove();
+
+    if (item.author.avatar) {
+      advertElement.querySelector('.popup__avatar').src = item.author.avatar;
+    } else {
+      advertElement.querySelector('.popup__avatar').remove();
+    }
+    listFragment.appendChild(advertElement);
+  });
+  advertContainer.appendChild(listFragment);
+
+};*/
 export{getRandomInteger,getRandomArrElement,randomizeArr,getImgString,getLocation,getRandomFloat};
