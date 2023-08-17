@@ -53,7 +53,7 @@ const renderAdvert = (dataList)=>{
   advertElement.querySelector('.popup__type').textContent = offerType[dataList.offer.type];
   advertElement.querySelector('.popup__description').textContent = dataList.offer.description;
   advertElement.querySelector('.popup__text--time').textContent = `Заезд после ${dataList.offer.checkin} выезд до ${dataList.offer.checkout}`;
-  if (dataList.offer.features) {
+  if (dataList.offer.features.length) {
     const modifiers = dataList.offer.features.map((feature) => `popup__feature--${feature}`);
     popupFeatureItems.forEach((popupFeatureItem) => {
       const modifier = popupFeatureItem.classList[1];
@@ -64,7 +64,7 @@ const renderAdvert = (dataList)=>{
   } else {
     advertElement.querySelector('.popup__features').remove();
   }
-  if (dataList.offer.photos) {
+  if (dataList.offer.photos.length) {
     dataList.offer.photos.forEach((photo) => popupPhotoList.appendChild(createImage(photo)));
   } else {
     advertElement.querySelector('.popup__photos').remove();

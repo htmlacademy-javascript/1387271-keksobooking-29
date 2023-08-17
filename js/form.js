@@ -5,12 +5,21 @@ const BOOKING_MIN_PRICE = {
   'bungalow': 0,
   'hotel': 3000
 };
+const CAPACITY = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
 const addformElement = document.querySelector('.ad-form');
 const mapfiltersElement = document.querySelector('.map__filters');
 const addformTitleElement = addformElement.querySelector('#title');
-const submitButton = addformElement.querySelector('.ad-form__submit');
+//const submitButton = addformElement.querySelector('.ad-form__submit');
 const addformPriceElement = addformElement.querySelector('#price');
 const housingTypeInputElement = addformElement.querySelector('#type');
+const roomNumberformElement = addformElement.querySelector('#room_number');
+const capacityformElement = addformElement.querySelector('#capacity');
 
 //функция по инициализации неактивного состояния формы
 const disactiveForm = (form)=>{
@@ -42,29 +51,33 @@ const toActiveForms = ()=>{
 //валидация полей  формы
 //создание объекта библиотеки pristine
 const pristine = new Pristine(addformElement,{
-  classTo: 'pristine-custom',
-  errorClass: 'pristine-custom--invalid',
-  successClass: 'pristine-custom--valid',
-  errorTextParent: 'pristine-custom',
+  classTo: 'pristine_value',
+  errorClass: 'pristine_value--invalid',
+  successClass: 'pristine_value--valid',
+  errorTextParent: 'pristine_value',
   errorTextClass: 'text-pristine',
   errorTextTag: 'div'
 });
 //функция по проверке длины заголовка заголовка
 const controlTitleLenght = (str)=> str.length >= 30 && str.length <= 100;
-
 // функция по проверке цены на жильёж
-const controlPriceValue = ()=>addformPriceElement.value >= BOOKING_MIN_PRICE[housingTypeInputElement.value]
+const controlPriceValue = ()=>addformPriceElement.value >= BOOKING_MIN_PRICE[housingTypeInputElement.value];
 const getPriceErrorMessage = () => {
   if (addformPriceElement.value <= BOOKING_MIN_PRICE[housingTypeInputElement.value]) {
     return `минимальная цена ${BOOKING_MIN_PRICE[housingTypeInputElement.value]}`;
   }
 };
+//функция по проверке вместимости жилья
+const controlCapacity = ()=>CAPACITY[roomNumberformElement.value].includes(capacityformElement.value);
+const getCapacityErrorMessage = ()=>`Размещение в ${roomNumberformElement.value} ${roomNumberformElement.value === '1' ? 'комнате' : 'комнатах'} для ${capacityformElement.value} ${capacityformElement.value === '1' ? 'гостя' : 'гостей'} невозможно`;
+pristine.addValidator(addformPriceElement, controlPriceValue, getPriceErrorMessage);
+pristine.addValidator(addformTitleElement,controlTitleLenght,'введите длину заголовка от 30 до 100 символов');
+pristine.addValidator(capacityformElement,controlCapacity,getCapacityErrorMessage);
+pristine.addValidator(roomNumberformElement,controlCapacity,getCapacityErrorMessage);
 
-const onAddFormSubmit = ()=>{
-  // evt.preventDefault();
+const onAddFormSubmit = (evt)=>{
+  evt.preventDefault();
   pristine.validate();
-  pristine.addValidator(addformTitleElement,controlTitleLenght,'введите длину заголовка от 30 до 100 символов');
-  pristine.addValidator(addformPriceElement, controlPriceValue, getPriceErrorMessage);
 };
 
 

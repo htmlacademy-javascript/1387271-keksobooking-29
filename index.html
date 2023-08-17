@@ -85,16 +85,16 @@
             <p class="ad-form-header__info">Заполните все обязательные поля, назначьте цену, загрузите аватар и фото жилья. Придумайте интересное описание. Оно сделает объявление более живым и привлекательным. Получившееся объявление должно давать гостям полное представление о вашем жилье.</p>
           </div>
         </fieldset>
-        <fieldset class="ad-form__element ad-form__element--wide" pristine_value>
+        <fieldset class="ad-form__element ad-form__element--wide pristine_value">
           <label class="ad-form__label" for="title">Заголовок объявления</label>
           <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" required minlength="30" maxlength="100"
-          data-pristine-required-message="Обязательное поле" data-pristine-minlength-message="Минимальная длина заголовка 30 символов" data-pristine-maxlength-message="Максимальная длина заголовка 100 символов" >
+          data-pristine-required-message="Обязательное поле" data-pristine-minlength-message="Минимальная длина заголовка 30 символов" data-pristine-maxlength-message="Максимальная длина заголовка 100 символов">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" readonly required>
         </fieldset>
-        <fieldset class="ad-form__element" pristine_value>
+        <fieldset class="ad-form__element pristine_value">
           <label class="ad-form__label" for="type">Тип жилья</label>
           <select id="type" name="type">
             <option value="bungalow">Бунгало</option>
