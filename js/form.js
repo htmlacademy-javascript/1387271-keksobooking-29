@@ -88,7 +88,6 @@ pristine.addValidator(capacityformElement,controlCapacity,getCapacityErrorMessag
 pristine.addValidator(roomNumberformElement,controlCapacity,getCapacityErrorMessage);
 //меняем тип жилья и отражаем минимальную стоимость
 const onChangehousingType = ()=>{
-
   addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
   addformPriceElement.placeholder = addformPriceElement.min;
 };
