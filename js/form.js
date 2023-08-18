@@ -20,6 +20,8 @@ const addformPriceElement = addformElement.querySelector('#price');
 const housingTypeInputElement = addformElement.querySelector('#type');
 const roomNumberformElement = addformElement.querySelector('#room_number');
 const capacityformElement = addformElement.querySelector('#capacity');
+const timeInformElement = addformElement.querySelector('#timein');
+const timeOutformElement = addformElement.querySelector('#timeout');
 
 //функция по инициализации неактивного состояния формы
 const disactiveForm = (form)=>{
@@ -30,6 +32,7 @@ const disactiveForm = (form)=>{
     element.setAttribute('disabled', 'disabled');
   });
 };
+//функция по инициализации активного состояния формы
 const activeForm = (form)=>{
   form.classList.remove(`${form.classList[0]}--disabled`);
 
@@ -70,17 +73,36 @@ const getPriceErrorMessage = () => {
 //функция по проверке вместимости жилья
 const controlCapacity = ()=>CAPACITY[roomNumberformElement.value].includes(capacityformElement.value);
 const getCapacityErrorMessage = ()=>`Размещение в ${roomNumberformElement.value} ${roomNumberformElement.value === '1' ? 'комнате' : 'комнатах'} для ${capacityformElement.value} ${capacityformElement.value === '1' ? 'гостя' : 'гостей'} невозможно`;
+
+//функции по выбору опции одного поля автоматически изменят значение другого(Даты заезда и даты выезда)
+const onChangeTimeIn = () =>{
+  timeInformElement.value = timeOutformElement.value;
+};
+const onChangeTimeOut = ()=>{
+  timeOutformElement.value = timeInformElement.value;
+};
+
 pristine.addValidator(addformPriceElement, controlPriceValue, getPriceErrorMessage);
 pristine.addValidator(addformTitleElement,controlTitleLenght,'введите длину заголовка от 30 до 100 символов');
 pristine.addValidator(capacityformElement,controlCapacity,getCapacityErrorMessage);
 pristine.addValidator(roomNumberformElement,controlCapacity,getCapacityErrorMessage);
+//меняем тип жилья и отражаем минимальную стоимость
+const onChangehousingType = ()=>{
 
+  addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
+  addformPriceElement.placeholder = addformPriceElement.min;
+};
+//событие при нажитии кнопки
 const onAddFormSubmit = (evt)=>{
   evt.preventDefault();
   pristine.validate();
 };
 
-
-const validateForm = ()=>addformElement.addEventListener('submit',onAddFormSubmit);
-
+//функция по инициализации формы
+const validateForm = ()=>{
+  addformElement.addEventListener('submit',onAddFormSubmit);
+  housingTypeInputElement.addEventListener('change',onChangehousingType);
+  timeInformElement.addEventListener('change',onChangeTimeOut);
+  timeOutformElement.addEventListener('change',onChangeTimeIn);
+};
 export{toDisactiveForms,toActiveForms,validateForm};
