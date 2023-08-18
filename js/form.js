@@ -22,7 +22,7 @@ const roomNumberformElement = addformElement.querySelector('#room_number');
 const capacityformElement = addformElement.querySelector('#capacity');
 const timeInformElement = addformElement.querySelector('#timein');
 const timeOutformElement = addformElement.querySelector('#timeout');
-const sliderPriceElement = addformElement.querySelector('.ad-form__slider')
+const sliderPriceElement = addformElement.querySelector('.ad-form__slider');
 
 //функция по инициализации неактивного состояния формы
 const disactiveForm = (form)=>{
