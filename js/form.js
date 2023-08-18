@@ -22,6 +22,7 @@ const roomNumberformElement = addformElement.querySelector('#room_number');
 const capacityformElement = addformElement.querySelector('#capacity');
 const timeInformElement = addformElement.querySelector('#timein');
 const timeOutformElement = addformElement.querySelector('#timeout');
+const sliderPriceElement = addformElement.querySelector('.ad-form__slider')
 
 //функция по инициализации неактивного состояния формы
 const disactiveForm = (form)=>{
@@ -82,6 +83,30 @@ const onChangeTimeOut = ()=>{
   timeOutformElement.value = timeInformElement.value;
 };
 
+//инициализация слайдера
+const initSlider = ()=>{
+  noUiSlider.create(sliderPriceElement, {
+    range: {
+      min: 0,
+      max: 100000,
+    },
+    start: BOOKING_MIN_PRICE[housingTypeInputElement.value],
+    step: 1,
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        return value.toFixed(0);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
+  });
+  /*initSlider.noUiSlider.on('update',() =>{
+    addformPriceElement.value = sliderPriceElement.noUiSlider.get();
+  }
+  );*/
+};
 pristine.addValidator(addformPriceElement, controlPriceValue, getPriceErrorMessage);
 pristine.addValidator(addformTitleElement,controlTitleLenght,'введите длину заголовка от 30 до 100 символов');
 pristine.addValidator(capacityformElement,controlCapacity,getCapacityErrorMessage);
@@ -99,6 +124,7 @@ const onAddFormSubmit = (evt)=>{
 
 //функция по инициализации формы
 const validateForm = ()=>{
+  initSlider();
   addformElement.addEventListener('submit',onAddFormSubmit);
   housingTypeInputElement.addEventListener('change',onChangehousingType);
   timeInformElement.addEventListener('change',onChangeTimeOut);
