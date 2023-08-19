@@ -55,16 +55,13 @@ const toActiveForms = ()=>{
 //валидация полей  формы
 //создание объекта библиотеки pristine
 const pristine = new Pristine(addformElement,{
-  classTo: 'pristine_value',
-  errorClass: 'pristine_value--invalid',
-  successClass: 'pristine_value--valid',
-  errorTextParent: 'pristine_value',
-  errorTextClass: 'text-pristine',
+  classTo: 'ad-form__element',
+  errorClass: 'ad-form__element--invalid',
+  errorTextParent: 'ad-form__element',
+  errorTextClass: 'text-help',
   errorTextTag: 'div'
 });
-//функция по проверке длины заголовка заголовка
-const controlTitleLenght = (str)=> str.length >= 30 && str.length <= 100;
-// функция по проверке цены на жильёж
+
 const controlPriceValue = ()=>addformPriceElement.value >= BOOKING_MIN_PRICE[housingTypeInputElement.value];
 const getPriceErrorMessage = () => {
   if (addformPriceElement.value <= BOOKING_MIN_PRICE[housingTypeInputElement.value]) {
@@ -102,15 +99,25 @@ const initSlider = ()=>{
       },
     },
   });
-  /*initSlider.noUiSlider.on('update',() =>{
+  sliderPriceElement.noUiSlider.on('update',() =>{
     addformPriceElement.value = sliderPriceElement.noUiSlider.get();
-  }
-  );*/
+  });
+  housingTypeInputElement.addEventListener('change',()=>{
+    addformPriceElement.value = BOOKING_MIN_PRICE[housingTypeInputElement.value];
+  });
+  addformPriceElement.addEventListener('change', ()=> {
+    sliderPriceElement.noUiSlider.set(addformPriceElement.value);
+  });
+
 };
 pristine.addValidator(addformPriceElement, controlPriceValue, getPriceErrorMessage);
-pristine.addValidator(addformTitleElement,controlTitleLenght,'введите длину заголовка от 30 до 100 символов');
 pristine.addValidator(capacityformElement,controlCapacity,getCapacityErrorMessage);
 pristine.addValidator(roomNumberformElement,controlCapacity,getCapacityErrorMessage);
+//валидатор для количества жильцов и комнат
+const onValidateCapacityRooms = ()=>{
+  pristine.validate(capacityformElement);
+  pristine.validate(roomNumberformElement);
+};
 //меняем тип жилья и отражаем минимальную стоимость
 const onChangehousingType = ()=>{
   addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
@@ -129,5 +136,7 @@ const validateForm = ()=>{
   housingTypeInputElement.addEventListener('change',onChangehousingType);
   timeInformElement.addEventListener('change',onChangeTimeOut);
   timeOutformElement.addEventListener('change',onChangeTimeIn);
+  capacityformElement.addEventListener('change',onValidateCapacityRooms);
+  roomNumberformElement.addEventListener('change',onValidateCapacityRooms);
 };
 export{toDisactiveForms,toActiveForms,validateForm};
