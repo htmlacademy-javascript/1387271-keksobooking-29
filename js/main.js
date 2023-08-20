@@ -1,11 +1,7 @@
-import { createObjects } from './data.js';
-import { renderAdvert } from './render-advert.js';
-import { toActiveForms, toDisactiveForms,validateForm} from './form.js';
-const COUNT_BOOKING = 10;
-const ArrayofObjects = () => Array.from({length:COUNT_BOOKING}, (_, index)=>createObjects(index));
-//console.log(ArrayofObjects());
-const advertList = ArrayofObjects();
-renderAdvert(advertList[2]);
+import {mapInit} from './map.js';
+import { toDisactiveForms,validateForm} from './form.js';
 toDisactiveForms();
-toActiveForms();
+mapInit();
 validateForm();
+
+

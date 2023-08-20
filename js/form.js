@@ -14,7 +14,7 @@ const CAPACITY = {
 
 const addformElement = document.querySelector('.ad-form');
 const mapfiltersElement = document.querySelector('.map__filters');
-const addformTitleElement = addformElement.querySelector('#title');
+//const addformTitleElement = addformElement.querySelector('#title');
 //const submitButton = addformElement.querySelector('.ad-form__submit');
 const addformPriceElement = addformElement.querySelector('#price');
 const housingTypeInputElement = addformElement.querySelector('#type');
@@ -121,7 +121,7 @@ const onValidateCapacityRooms = ()=>{
 //меняем тип жилья и отражаем минимальную стоимость
 const onChangehousingType = ()=>{
   addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
-  addformPriceElement.placeholder = addformPriceElement.min;
+  addformPriceElement.placeholder = BOOKING_MIN_PRICE[housingTypeInputElement.value];
 };
 //событие при нажитии кнопки
 const onAddFormSubmit = (evt)=>{
