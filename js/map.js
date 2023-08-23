@@ -17,6 +17,7 @@ const otherPinIcon = L.icon({
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
+
 const coordinatesInputElement = document.querySelector('#address');
 const resetButtonElement = document.querySelector('.ad-form__reset');
 let map = null;
@@ -33,8 +34,7 @@ const mapInit = ()=>{
     icon: mainPinIcon,
   });
   mainPinMarker.addTo(map);
-  
-  const otherPinIcon = L.marker()
+
   coordinatesInputElement.value = `${TOKIO_LAT_LNG_.lat} ${TOKIO_LAT_LNG_.lng}`;
   mainPinMarker.on('moveend',(evt)=>{
     const lat = Number(evt.target.getLatLng().lat).toFixed(5);
@@ -43,5 +43,17 @@ const mapInit = ()=>{
     map.setView(evt.target.getLatLng(), ZOOM);
   });
 };
+const createOtherMarkets = (data)=>{
+  const marker = L.marker(
+    {
+      lat:data.location.lat,
+      lng:data.location.lng,
+    },
+    {
+      otherPinIcon,
+    },);
 
-export{mapInit};
+  marker.addTo(map);
+};
+
+export{mapInit,createOtherMarkets};
