@@ -12,19 +12,36 @@ const mainPinIcon = L.icon({
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
+const otherPinIcon = L.icon({
+  iconUrl:'./img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+const coordinatesInputElement = document.querySelector('#address');
+const resetButtonElement = document.querySelector('.ad-form__reset');
 let map = null;
 //инициализация карты
 const mapInit = ()=>{
   map = L.map('map-canvas')
     .on('load',toActiveForms)
     .setView(TOKIO_LAT_LNG_, ZOOM);
-  L.tileLayer(TILE_LAYER,{
-    attribution: ATTRIBUTION,}).addTo(map);
+  L.tileLayer(
+    TILE_LAYER,{attribution: ATTRIBUTION,}).addTo(map);
+
   const mainPinMarker = L.marker(TOKIO_LAT_LNG_, {
     draggable: true,
     icon: mainPinIcon,
   });
   mainPinMarker.addTo(map);
+  
+  const otherPinIcon = L.marker()
+  coordinatesInputElement.value = `${TOKIO_LAT_LNG_.lat} ${TOKIO_LAT_LNG_.lng}`;
+  mainPinMarker.on('moveend',(evt)=>{
+    const lat = Number(evt.target.getLatLng().lat).toFixed(5);
+    const lng = Number(evt.target.getLatLng().lng).toFixed(5);
+    coordinatesInputElement.value = `${lat} ${lng}`;
+    map.setView(evt.target.getLatLng(), ZOOM);
+  });
 };
 
 export{mapInit};
