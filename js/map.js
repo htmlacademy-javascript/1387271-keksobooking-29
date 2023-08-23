@@ -19,7 +19,7 @@ const otherPinIcon = L.icon({
 });
 
 const coordinatesInputElement = document.querySelector('#address');
-const resetButtonElement = document.querySelector('.ad-form__reset');
+//const resetButtonElement = document.querySelector('.ad-form__reset');
 let map = null;
 //инициализация карты
 const mapInit = ()=>{
