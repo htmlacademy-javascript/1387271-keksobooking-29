@@ -105,7 +105,7 @@ const initSlider = ()=>{
   housingTypeInputElement.addEventListener('change',()=>{
     addformPriceElement.value = BOOKING_MIN_PRICE[housingTypeInputElement.value];
   });
-  addformPriceElement.addEventListener('change', ()=> {
+  addformPriceElement.addEventListener('input', ()=> {
     sliderPriceElement.noUiSlider.set(addformPriceElement.value);
   });
 
