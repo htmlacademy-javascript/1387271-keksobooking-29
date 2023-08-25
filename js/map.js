@@ -1,6 +1,8 @@
-
 import { renderAdvert } from './render-advert.js';
-import { createObjects } from './data.js';
+//import { createObjects } from './data.js';
+import {getData} from './api.js';
+import { toActiveForms } from './form.js';
+const COUNT_BOOKING = 10;
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const ZOOM = 10;
@@ -39,12 +41,9 @@ const createOtherMarkets = (data)=>{
     bindPopup(renderAdvert(data));
 };
 //инициализация карты
-const mapInit = (toActiveForms)=>{
-  const COUNT_BOOKING = 10;
-  const ArrayofObjects = () => Array.from({length:COUNT_BOOKING}, (_, index)=> createObjects(index));
-  const advertList = ArrayofObjects();
+const mapInit = ()=>{
   map = L.map('map-canvas')
-    .on('load',toActiveForms)
+    .on('load',onGetDataMap)
     .setView(TOKIO_LAT_LNG_, ZOOM);
   L.tileLayer(
     TILE_LAYER,{attribution: ATTRIBUTION,}).addTo(map);
@@ -62,9 +61,15 @@ const mapInit = (toActiveForms)=>{
     coordinatesInputElement.value = `${lat} ${lng}`;
     map.setView(evt.target.getLatLng(), ZOOM);
   });
-  advertList.forEach((data) =>{
-    createOtherMarkets(data);
-  });
 };
+function onGetDataMap () {
+  coordinatesInputElement.value = `${TOKIO_LAT_LNG_.lat} ${TOKIO_LAT_LNG_.lng}`;
+  getData(
+    (dataList) => {
+      createOtherMarkets(dataList.slice(0, COUNT_BOOKING));
+      toActiveForms();
+    },
+  );
+}
 
-export{mapInit,createOtherMarkets};
+export{mapInit};
