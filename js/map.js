@@ -46,6 +46,7 @@ const mapInit = ()=>{
     map.setView(evt.target.getLatLng(), ZOOM);
   });
 };
+
 mapInit();
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -66,7 +67,6 @@ const createOtherMarkets = (data)=>{
 //создаем маркеры на основе данных полученных с сервера
 const createAdvertsMarkers = (data) => {
   map.closePopup();
-  console.log(data.length);
   markerGroup.clearLayers();
   data.forEach((listElement) => {
     createOtherMarkets(listElement);
@@ -82,4 +82,4 @@ function onGetDataMap () {
   );
 }
 
-export{mapInit};
+
