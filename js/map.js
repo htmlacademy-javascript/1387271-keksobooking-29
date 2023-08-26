@@ -25,21 +25,7 @@ const otherPinIcon = L.icon({
 const coordinatesInputElement = document.querySelector('#address');
 //const resetButtonElement = document.querySelector('.ad-form__reset');
 let map = null;
-//функция по созданию других маркеров
-const createOtherMarkets = (data)=>{
-  const markerGroup = L.layerGroup().addTo(map);
-  const marker = L.marker(
-    {
-      lat:data.location.lat,
-      lng:data.location.lng,
-    },
-    {
-      otherPinIcon,
-    },);
 
-  marker.addTo(markerGroup).
-    bindPopup(renderAdvert(data));
-};
 //инициализация карты
 const mapInit = ()=>{
   map = L.map('map-canvas')
@@ -53,8 +39,6 @@ const mapInit = ()=>{
     icon: mainPinIcon,
   });
   mainPinMarker.addTo(map);
-
-  coordinatesInputElement.value = `${TOKIO_LAT_LNG_.lat} ${TOKIO_LAT_LNG_.lng}`;
   mainPinMarker.on('moveend',(evt)=>{
     const lat = Number(evt.target.getLatLng().lat).toFixed(5);
     const lng = Number(evt.target.getLatLng().lng).toFixed(5);
@@ -62,11 +46,37 @@ const mapInit = ()=>{
     map.setView(evt.target.getLatLng(), ZOOM);
   });
 };
+mapInit();
+const markerGroup = L.layerGroup().addTo(map);
+
+//функция по созданию других маркеров
+const createOtherMarkets = (data)=>{
+  const marker = L.marker(
+    {
+      lat:data.location.lat,
+      lng:data.location.lng,
+    },
+    {
+      otherPinIcon,
+    },);
+  marker.addTo(markerGroup).
+    bindPopup(renderAdvert(data));
+
+};
+//создаем маркеры на основе данных полученных с сервера
+const createAdvertsMarkers = (data) => {
+  map.closePopup();
+  console.log(data.length);
+  markerGroup.clearLayers();
+  data.forEach((listElement) => {
+    createOtherMarkets(listElement);
+  });
+};
 function onGetDataMap () {
   coordinatesInputElement.value = `${TOKIO_LAT_LNG_.lat} ${TOKIO_LAT_LNG_.lng}`;
   getData(
     (dataList) => {
-      createOtherMarkets(dataList.slice(0, COUNT_BOOKING));
+      createAdvertsMarkers(dataList.slice(0, COUNT_BOOKING));
       toActiveForms();
     },
   );
