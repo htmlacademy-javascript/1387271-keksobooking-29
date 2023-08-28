@@ -1,3 +1,4 @@
+import { errorTemplate } from './form.js';
 const MESSAGE_SHOW_TIME = 5000;
 const NUMBER_OF_DIGITS = 5;
 //генератор случайного целого числа
@@ -50,4 +51,42 @@ const showMessage = (message) => {
     messageContainer.remove();
   }, MESSAGE_SHOW_TIME);
 };
-export{getRandomInteger,getRandomArrElement,randomizeArr,getImgString,getLocation,getRandomFloat,showMessage};
+const onSuccessMessageExitClick = (evt) => {
+  evt.preventDefault();
+  if (!evt.target.closest('.success__message')) {
+    document.querySelector('.success').remove();
+  }
+  document.removeEventListener('keydown', onSuccessMessageExitEsc);
+  document.removeEventListener('click', onSuccessMessageExitClick);
+};
+
+function onSuccessMessageExitEsc (evt) {
+  evt.preventDefault();
+  if (evt.key === 'Escape') {
+    document.querySelector('.success').remove();
+  }
+  document.removeEventListener('keydown', onSuccessMessageExitEsc);
+  document.removeEventListener('click', onSuccessMessageExitClick);
+}
+const onErrorMessageExitClick = (evt) => {
+  const errorBlock = errorTemplate.cloneNode(true);
+  evt.preventDefault();
+  if (evt.key === 'Escape' || !evt.target.closest('.error__message') || evt.target.closest('.error__button')) {
+    document.querySelector('.error').remove();
+  }
+  document.removeEventListener('keydown', onErrorMessageExitEsc);
+  document.removeEventListener('click', onErrorMessageExitClick);
+  errorBlock.querySelector('.error__button').removeEventListener('click', onErrorMessageExitClick);
+};
+
+function onErrorMessageExitEsc (evt) {
+  const errorBlock = errorTemplate.cloneNode(true);
+  evt.preventDefault();
+  if (evt.key === 'Escape') {
+    document.querySelector('.error').remove();
+  }
+  document.removeEventListener('keydown', onErrorMessageExitEsc);
+  document.removeEventListener('click', onErrorMessageExitClick);
+  errorBlock.querySelector('.error__button').removeEventListener('click', onErrorMessageExitClick);
+}
+export{getRandomInteger,getRandomArrElement,randomizeArr,getImgString,getLocation,getRandomFloat,showMessage,onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc};

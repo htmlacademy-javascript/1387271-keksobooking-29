@@ -1,3 +1,6 @@
+import { sendData } from './api.js';
+import { onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc} from './util.js';
+import { resetData } from './map.js';
 const BOOKING_MIN_PRICE = {
   'palace': 10000,
   'flat': 1000,
@@ -14,8 +17,7 @@ const CAPACITY = {
 
 const addformElement = document.querySelector('.ad-form');
 const mapfiltersElement = document.querySelector('.map__filters');
-//const addformTitleElement = addformElement.querySelector('#title');
-//const submitButton = addformElement.querySelector('.ad-form__submit');
+const submitFormButton = addformElement.querySelector('.ad-form__submit');
 const addformPriceElement = addformElement.querySelector('#price');
 const housingTypeInputElement = addformElement.querySelector('#type');
 const roomNumberformElement = addformElement.querySelector('#room_number');
@@ -23,6 +25,8 @@ const capacityformElement = addformElement.querySelector('#capacity');
 const timeInformElement = addformElement.querySelector('#timein');
 const timeOutformElement = addformElement.querySelector('#timeout');
 const sliderPriceElement = addformElement.querySelector('.ad-form__slider');
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
 //функция по инициализации неактивного состояния формы
 const disactiveForm = (form)=>{
@@ -42,6 +46,7 @@ const activeForm = (form)=>{
     element.removeAttribute('disabled', 'disabled');
   });
 };
+
 
 const toDisactiveForms = ()=>{
   disactiveForm(addformElement);
@@ -123,10 +128,47 @@ const onChangehousingType = ()=>{
   addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
   addformPriceElement.placeholder = BOOKING_MIN_PRICE[housingTypeInputElement.value];
 };
+const blockSubmitButton = () => {
+  submitFormButton.disabled = true;
+  submitFormButton.textContent = 'Отправляю данные...';
+};
+const unblockSubmitButton = () => {
+  submitFormButton.disabled = false;
+  submitFormButton.textContent = 'Опубликовать';
+};
+
+function showSuccessMessage(){
+  const successBlock = successTemplate.cloneNode(true);
+  document.body.append(successBlock);
+  document.addEventListener('keydown', onSuccessMessageExitEsc);
+  document.addEventListener('click', onSuccessMessageExitClick);
+}
+function showErrorMessage(){
+  const errorBlock = errorTemplate.cloneNode(true);
+  document.body.append(errorBlock);
+  document.addEventListener('keydown', onErrorMessageExitEsc);
+  document.addEventListener('click', onErrorMessageExitClick);
+  document.querySelector('.error__button').addEventListener('click', onErrorMessageExitClick);
+}
+const onSendSuccess = ()=>{
+  showSuccessMessage();
+  unblockSubmitButton();
+  resetData();
+};
+const onSendError = ()=>{
+  showErrorMessage();
+  unblockSubmitButton();
+};
 //событие при нажитии кнопки
 const onAddFormSubmit = (evt)=>{
   evt.preventDefault();
-  pristine.validate();
+  const isValid = pristine.validate();
+  if(isValid){
+    blockSubmitButton();
+    sendData(onSendSuccess,onSendError,new FormData(evt.target));
+  } else {
+    unblockSubmitButton();
+  }
 };
 
 //функция по инициализации формы
@@ -139,4 +181,9 @@ const validateForm = ()=>{
   capacityformElement.addEventListener('change',onValidateCapacityRooms);
   roomNumberformElement.addEventListener('change',onValidateCapacityRooms);
 };
-export{toDisactiveForms,toActiveForms,validateForm};
+const resetForm = ()=>{
+  mapfiltersElement.reset();
+  addformElement.reset();
+  pristine.reset();
+};
+export {toDisactiveForms,toActiveForms,validateForm,addformElement,mapfiltersElement,resetForm,errorTemplate};
