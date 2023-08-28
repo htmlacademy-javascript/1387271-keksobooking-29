@@ -127,6 +127,8 @@ const onValidateCapacityRooms = ()=>{
 const onChangehousingType = ()=>{
   addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
   addformPriceElement.placeholder = BOOKING_MIN_PRICE[housingTypeInputElement.value];
+  sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
+
 };
 const blockSubmitButton = () => {
   submitFormButton.disabled = true;
@@ -185,5 +187,6 @@ const resetForm = ()=>{
   mapfiltersElement.reset();
   addformElement.reset();
   pristine.reset();
+  sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
 };
 export {toDisactiveForms,toActiveForms,validateForm,addformElement,mapfiltersElement,resetForm,errorTemplate};
