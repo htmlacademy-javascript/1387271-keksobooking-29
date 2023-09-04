@@ -1,7 +1,7 @@
 import { renderAdvert } from './render-advert.js';
-//import { createObjects } from './data.js';
 import {getData} from './api.js';
 import { toActiveForms,resetForm} from './form.js';
+import { initFilters } from './filter.js';
 const COUNT_BOOKING = 10;
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -77,6 +77,7 @@ function onGetDataMap () {
   getData(
     (dataList) => {
       createAdvertsMarkers(dataList.slice(0, COUNT_BOOKING));
+      initFilters(dataList.slice());
       toActiveForms();
     },
   );
@@ -94,4 +95,4 @@ const resetData = ()=>{
   onGetDataMap();
 };
 resetButtonElement.addEventListener('click',resetData);
-export {resetData};
+export {resetData,createAdvertsMarkers};
