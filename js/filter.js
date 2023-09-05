@@ -28,7 +28,7 @@ const Prices = {
 const filterByHouseType = (type) => houseTypeElement.value === type || houseTypeElement.value === ANY;
 const filterByPrice = (price) =>{
   const priceElement = housePriceElement.value.toUpperCase();
-  return price <= Prices[priceElement].minPrice && price >= Prices[priceElement].maxPrice;
+  return price >= Prices[priceElement].minPrice && price <= Prices[priceElement].maxPrice;
 };
 const filterOffers = (offers, rerenderMarkers) => {
   const filteredOffers = [];
