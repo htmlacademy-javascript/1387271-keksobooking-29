@@ -76,7 +76,7 @@ function onGetDataMap () {
   coordinatesInputElement.value = `${TOKIO_LAT_LNG_.lat} ${TOKIO_LAT_LNG_.lng}`;
   getData(
     (dataList) => {
-      createAdvertsMarkers(dataList.slice(0, COUNT_BOOKING));
+      //createAdvertsMarkers(dataList.slice(0, COUNT_BOOKING));
       initFilters(dataList.slice());
       toActiveForms();
     },
