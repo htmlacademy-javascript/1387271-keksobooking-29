@@ -44,16 +44,16 @@ const filterByFeatures = (features) => {
   }
   return checkBoxFeatures.length === 0;
 };
-const toCheckAllFilters=()=>
-const filterOffers = (offers, rerenderMarkers) => {
-  const filteredOffers = [];
-  for (const offer of offers) {
-    if (filterByHouseType(offer.offer.type) &&
+const toCheckAllFilters = (offer)=>filterByHouseType(offer.offer.type) &&
       filterByPrice(offer.offer.price) &&
       filterByRoomsCount(offer.offer.rooms) &&
       filterByGuestsCount(offer.offer.guests) &&
-      filterByFeatures(offer.offer.features))
-    {
+      filterByFeatures(offer.offer.features);
+
+const filterOffers = (offers, rerenderMarkers) => {
+  const filteredOffers = [];
+  for (const offer of offers) {
+    if (toCheckAllFilters(offer)){
       filteredOffers.push(offer);
       if (filteredOffers.length >= ADVERTS_AMOUNT) {
         break;

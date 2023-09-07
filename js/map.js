@@ -90,8 +90,7 @@ const resetData = ()=>{
   map.setView(TOKIO_LAT_LNG_, ZOOM);
   map.closePopup();
   resetForm();
-  setAdress(TOKIO_LAT_LNG_);
   onGetDataMap();
 };
 resetButtonElement.addEventListener('click',resetData);
-export {resetData,createAdvertsMarkers};
+export {resetData,createAdvertsMarkers,TOKIO_LAT_LNG_};

@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import { onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc} from './util.js';
-import { resetData } from './map.js';
+import { resetData,TOKIO_LAT_LNG_ } from './map.js';
 const BOOKING_MIN_PRICE = {
   'palace': 10000,
   'flat': 1000,
@@ -183,13 +183,15 @@ const validateForm = ()=>{
   capacityformElement.addEventListener('change',onValidateCapacityRooms);
   roomNumberformElement.addEventListener('change',onValidateCapacityRooms);
 };
+const setAdress = (LatLng)=>{
+  coordinatesInputElement.value = `${LatLng.lat} ${LatLng.lng}`;
+};
 const resetForm = ()=>{
   mapfiltersElement.reset();
   addformElement.reset();
   pristine.reset();
   sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
+  setAdress(TOKIO_LAT_LNG_);
 };
-const setAdress = (LatLng)=>{
-  coordinatesInputElement.value = `${LatLng.lat} ${LatLng.lng}`;
-};
+
 export {toDisactiveForms,toActiveForms,validateForm,addformElement,mapfiltersElement,resetForm,errorTemplate,setAdress};
