@@ -1,6 +1,6 @@
 import { renderAdvert } from './render-advert.js';
 import {getData} from './api.js';
-import { toActiveForms,resetForm} from './form.js';
+import { toActiveForms,resetForm,setAdress} from './form.js';
 import { initFilters } from './filter.js';
 const COUNT_BOOKING = 10;
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -10,7 +10,6 @@ const TOKIO_LAT_LNG_ = {
   lat: 35.65952,
   lng: 139.78179,
 };
-const coordinatesInputElement = document.querySelector('#address');
 const resetButtonElement = document.querySelector('.ad-form__reset');
 let map = null;
 const mainPinIcon = L.icon({
@@ -42,7 +41,7 @@ const mapInit = ()=>{
   mainPinMarker.on('moveend',(evt)=>{
     const lat = Number(evt.target.getLatLng().lat).toFixed(5);
     const lng = Number(evt.target.getLatLng().lng).toFixed(5);
-    coordinatesInputElement.value = `${lat} ${lng}`;
+    setAdress({lat,lng});
     map.setView(evt.target.getLatLng(), ZOOM);
   });
 };
@@ -73,7 +72,7 @@ const createAdvertsMarkers = (data) => {
   });
 };
 function onGetDataMap () {
-  coordinatesInputElement.value = `${TOKIO_LAT_LNG_.lat} ${TOKIO_LAT_LNG_.lng}`;
+  setAdress(TOKIO_LAT_LNG_);
   getData(
     (dataList) => {
       createAdvertsMarkers(dataList.slice(0, COUNT_BOOKING));
@@ -91,7 +90,7 @@ const resetData = ()=>{
   map.setView(TOKIO_LAT_LNG_, ZOOM);
   map.closePopup();
   resetForm();
-  coordinatesInputElement.value = `${TOKIO_LAT_LNG_.lat} ${TOKIO_LAT_LNG_.lng}`;
+  setAdress(TOKIO_LAT_LNG_);
   onGetDataMap();
 };
 resetButtonElement.addEventListener('click',resetData);
