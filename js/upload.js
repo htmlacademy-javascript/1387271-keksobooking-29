@@ -4,7 +4,7 @@ const avatarPhoto = document.querySelector('.ad-form-header__input');
 const previewAvatarPhoto = document.querySelector('.ad-form-header__preview img');
 const housePhoto = document.querySelector('.ad-form__input');
 const previewHousePhoto = document.querySelector('.ad-form__photo');
-
+//загрузка фото
 const setPreviewPictureLoader = () => {
   avatarPhoto.addEventListener('change', () => {
     const file = avatarPhoto.files[0];
@@ -27,5 +27,9 @@ const setPreviewPictureLoader = () => {
     }
   });
 };
-
-export {setPreviewPictureLoader};
+//удалекние фоток
+const resetPhotos = ()=>{
+  previewAvatarPhoto.src = 'img/muffin-grey.svg';
+  previewHousePhoto.replaceChildren();
+};
+export {setPreviewPictureLoader,resetPhotos};
