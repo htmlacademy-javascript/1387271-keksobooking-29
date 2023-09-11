@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import { onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc} from './util.js';
-import { resetData,TOKIO_LAT_LNG_ } from './map.js';
+import { resetData } from './map.js';
 import { resetPhotos } from './upload.js';
 const BOOKING_MIN_PRICE = {
   'palace': 10000,
@@ -192,7 +192,7 @@ const resetForm = ()=>{
   addformElement.reset();
   pristine.reset();
   sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
-  setAdress(TOKIO_LAT_LNG_);
+  //setAdress(TOKIO_LAT_LNG_);
   resetPhotos();
 };
 

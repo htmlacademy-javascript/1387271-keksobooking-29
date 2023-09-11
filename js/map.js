@@ -91,6 +91,9 @@ const resetData = ()=>{
   map.closePopup();
   resetForm();
   onGetDataMap();
+  setTimeout(() => {
+    setAdress(TOKIO_LAT_LNG_);
+  }, 1);
 };
 resetButtonElement.addEventListener('click',resetData);
 export {resetData,createAdvertsMarkers,TOKIO_LAT_LNG_};
