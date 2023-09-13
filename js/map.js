@@ -1,7 +1,8 @@
 import { renderAdvert } from './render-advert.js';
-import {getData} from './api.js';
-import { toActiveForms,resetForm,setAdress} from './form.js';
-import { initFilters } from './filter.js';
+import{onGetDataMap}from './main.js';
+//import {getData} from './api.js';
+import { resetForm,setAdress} from './form.js';
+//import { initFilters } from './filter.js';
 const COUNT_BOOKING = 10;
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -22,35 +23,40 @@ const otherPinIcon = L.icon({
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
-
-
 const mainPinMarker = L.marker(TOKIO_LAT_LNG_, {
   draggable: true,
   icon: mainPinIcon,
 });
 
 //инициализация карты
-const mapInit = ()=>{
+const mapInit = (onMapLoad)=>{
   map = L.map('map-canvas')
-    .on('load',onGetDataMap)
+    .on('load',() => {
+      onMapLoad(TOKIO_LAT_LNG_);
+    })
     .setView(TOKIO_LAT_LNG_, ZOOM);
   L.tileLayer(
     TILE_LAYER,{attribution: ATTRIBUTION,}).addTo(map);
+};
 
-  mainPinMarker.addTo(map);
+//инициализация главного маркера
+const mainPinInit = (setCoordinate)=>{
+
   mainPinMarker.on('moveend',(evt)=>{
     const lat = Number(evt.target.getLatLng().lat).toFixed(5);
     const lng = Number(evt.target.getLatLng().lng).toFixed(5);
-    setAdress({lat,lng});
+    setCoordinate({lat,lng});
     map.setView(evt.target.getLatLng(), ZOOM);
   });
+  mainPinMarker.addTo(map);
 };
 
-mapInit();
-const markerGroup = L.layerGroup().addTo(map);
+
+//mapInit();
+
 
 //функция по созданию других маркеров
-const createOtherMarkets = (data)=>{
+const createOtherMarkets = (data,markerGroup)=>{
   const marker = L.marker(
     {
       lat:data.location.lat,
@@ -65,13 +71,14 @@ const createOtherMarkets = (data)=>{
 };
 //создаем маркеры на основе данных полученных с сервера
 const createAdvertsMarkers = (data) => {
+  const markerGroup = L.layerGroup().addTo(map);
   map.closePopup();
   markerGroup.clearLayers();
   data.forEach((listElement) => {
-    createOtherMarkets(listElement);
+    createOtherMarkets(listElement,markerGroup);
   });
 };
-function onGetDataMap () {
+/*function onGetDataMap () {
   setAdress(TOKIO_LAT_LNG_);
   getData(
     (dataList) => {
@@ -80,7 +87,7 @@ function onGetDataMap () {
       toActiveForms();
     },
   );
-}
+}*/
 //функция по сбросу значений
 const resetData = ()=>{
   mainPinMarker.setLatLng({
@@ -90,10 +97,10 @@ const resetData = ()=>{
   map.setView(TOKIO_LAT_LNG_, ZOOM);
   map.closePopup();
   resetForm();
-  onGetDataMap();
+ // onGetDataMap();
   setTimeout(() => {
     setAdress(TOKIO_LAT_LNG_);
   }, 1);
 };
 resetButtonElement.addEventListener('click',resetData);
-export {resetData,createAdvertsMarkers,TOKIO_LAT_LNG_};
+export {mapInit,mainPinInit,resetData,createAdvertsMarkers,TOKIO_LAT_LNG_,COUNT_BOOKING};
