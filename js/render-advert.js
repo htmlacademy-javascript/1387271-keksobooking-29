@@ -21,7 +21,7 @@ const OFFER_KEYS = {
   description: 'description',
   photos: 'photos',
 };
-const advertContainer = document.querySelector('.map__canvas');
+
 const advertTemplate = document.querySelector('#card').content.querySelector('.popup');
 //создание фото
 const createImage = (objectKey) => {
@@ -36,7 +36,6 @@ const createImage = (objectKey) => {
 
 
 const renderAdvert = (dataList)=>{
-  const listFragment = document.createDocumentFragment();
   const advertElement = advertTemplate.cloneNode(true);
   const popupFeatureItems = advertElement.querySelectorAll('.popup__feature');
   const popupPhotoList = advertElement.querySelector('.popup__photos');
@@ -76,10 +75,7 @@ const renderAdvert = (dataList)=>{
   } else {
     advertElement.querySelector('.popup__avatar').remove();
   }
-  listFragment.appendChild(advertElement);
-
-  advertContainer.appendChild(listFragment);
-  return advertContainer;
+  return advertElement;
 };
 
 export {renderAdvert};
