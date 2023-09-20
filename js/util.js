@@ -1,4 +1,5 @@
-
+import { errorTemplate } from './form.js';
+const MESSAGE_SHOW_TIME = 5000;
 const NUMBER_OF_DIGITS = 5;
 //генератор случайного целого числа
 const getRandomInteger = (x, y) => {
@@ -30,53 +31,62 @@ const getLocation = (a,b)=>{
   const result = getRandomFloat(a,b);
   return result;
 };
-/*const renderAdvert = ()=>{
-  const listFragment = document.createDocumentFragment();
-  const advertList = createObjects();
+const showMessage = (message) => {
+  const messageContainer = document.createElement('div');
+  messageContainer.style.zIndex = '100';
+  messageContainer.style.position = 'absolute';
+  messageContainer.style.left = '0';
+  messageContainer.style.top = '0';
+  messageContainer.style.right = '0';
+  messageContainer.style.padding = '10px 3px';
+  messageContainer.style.fontSize = '10px';
+  messageContainer.style.textAlign = 'center';
+  messageContainer.style.backgroundColor = 'red';
 
-  advertList.forEach((item)=>{
-    const advertElement = advertTemplate.cloneNode(true);
-    const popupFeatureItems = advertElement.querySelectorAll('.popup__feature');
-    const popupPhotoList = advertElement.querySelector('.popup__photos');
-    const popupPhotos = popupPhotoList.querySelector('.popup__photo');
+  messageContainer.textContent = message;
 
-    Object.keys(advertList.offer).forEach((key) => {
-      if (!key) {
-        advertElement.querySelector(`.popup__${OFFER_KEYS[key]}`).remove();
-      }
-    });
-    advertElement.querySelector('title').textContent = item.offer.title;
-    advertElement.querySelector('.popup__text--address').textContent = item.offer.address;
-    advertElement.querySelector('.popup__text--price').firstChild.data = item.offer.price;
-    advertElement.querySelector('.popup__type').textContent = offerType[item.offer.type];
-    advertElement.querySelector('.popup__description').textContent = item.offer.description;
-    advertElement.querySelector('.popup__text--time').textContent = `Заезд после ${item.offer.checkin} выезд до ${item.offer.checkout}`;
-    if (item.offer.features) {
-      const modifiers = item.offer.features.map((feature) => `popup__feature--${feature}`);
-      popupFeatureItems.forEach((popupFeatureItem) => {
-        const modifier = popupFeatureItem.classList[1];
-        if (!modifiers.includes(modifier)) {
-          popupFeatureItem.remove();
-        }
-      });
-    } else {
-      advertElement.querySelector('.popup__features').remove();
-    }
-    if (item.offer.photos) {
-      item.offer.photos.forEach((photo) => popupPhotoList.appendChild(createImage(photo)));
-    } else {
-      advertElement.querySelector('.popup__photos').remove();
-    }
-    popupPhotos.remove();
+  document.body.append(messageContainer);
 
-    if (item.author.avatar) {
-      advertElement.querySelector('.popup__avatar').src = item.author.avatar;
-    } else {
-      advertElement.querySelector('.popup__avatar').remove();
-    }
-    listFragment.appendChild(advertElement);
-  });
-  advertContainer.appendChild(listFragment);
+  setTimeout(() => {
+    messageContainer.remove();
+  }, MESSAGE_SHOW_TIME);
+};
+const onSuccessMessageExitClick = (evt) => {
+  evt.preventDefault();
+  if (!evt.target.closest('.success__message')) {
+    document.querySelector('.success').remove();
+    document.removeEventListener('keydown', onSuccessMessageExitEsc);
+    document.removeEventListener('click', onSuccessMessageExitClick);
+  }
+};
 
-};*/
-export{getRandomInteger,getRandomArrElement,randomizeArr,getImgString,getLocation,getRandomFloat};
+function onSuccessMessageExitEsc (evt) {
+  evt.preventDefault();
+  if (evt.key === 'Escape') {
+    document.querySelector('.success').remove();
+    document.removeEventListener('keydown', onSuccessMessageExitEsc);
+    document.removeEventListener('click', onSuccessMessageExitClick);
+  }
+}
+const onErrorMessageExitClick = (evt) => {
+  const errorBlock = errorTemplate.cloneNode(true);
+  evt.preventDefault();
+  if (evt.key === 'Escape' || !evt.target.closest('.error__message') || evt.target.closest('.error__button')) {
+    document.querySelector('.error').remove();
+    document.removeEventListener('keydown', onErrorMessageExitEsc);
+    document.removeEventListener('click', onErrorMessageExitClick);
+    errorBlock.querySelector('.error__button').removeEventListener('click', onErrorMessageExitClick);
+  }
+};
+
+function onErrorMessageExitEsc (evt) {
+  const errorBlock = errorTemplate.cloneNode(true);
+  evt.preventDefault();
+  if (evt.key === 'Escape') {
+    document.querySelector('.error').remove();
+    document.removeEventListener('keydown', onErrorMessageExitEsc);
+    document.removeEventListener('click', onErrorMessageExitClick);
+    errorBlock.querySelector('.error__button').removeEventListener('click', onErrorMessageExitClick);
+  }
+}
+export{getRandomInteger,getRandomArrElement,randomizeArr,getImgString,getLocation,getRandomFloat,showMessage,onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc};

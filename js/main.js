@@ -1,9 +1,6 @@
-import {mapInit} from './map.js';
-import { toActiveForms, toDisactiveForms,validateForm} from './form.js';
-
-
+import './map.js';
+import {toDisactiveForms,validateForm} from './form.js';
 toDisactiveForms();
-mapInit(toActiveForms);
 validateForm();
 
 
