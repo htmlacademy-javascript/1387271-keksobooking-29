@@ -60,6 +60,7 @@ const onSuccessMessageExitClick = (evt) => {
   }
 };
 
+
 function onSuccessMessageExitEsc (evt) {
   evt.preventDefault();
   if (evt.key === 'Escape') {
@@ -89,4 +90,13 @@ function onErrorMessageExitEsc (evt) {
     errorBlock.querySelector('.error__button').removeEventListener('click', onErrorMessageExitClick);
   }
 }
-export{getRandomInteger,getRandomArrElement,randomizeArr,getImgString,getLocation,getRandomFloat,showMessage,onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc};
+//устранение дребезга
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+export{debounce,getRandomInteger,getRandomArrElement,randomizeArr,getImgString,getLocation,getRandomFloat,showMessage,onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc};

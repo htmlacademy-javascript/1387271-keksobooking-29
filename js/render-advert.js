@@ -50,7 +50,7 @@ const renderAdvert = (dataList)=>{
   advertElement.querySelector('.popup__text--address').textContent = dataList.offer.address;
   advertElement.querySelector('.popup__text--price').firstChild.data = dataList.offer.price;
   advertElement.querySelector('.popup__type').textContent = offerType[dataList.offer.type];
-  advertElement.querySelector('.popup__description').textContent = dataList.offer.description;
+  advertElement.querySelector('.popup__text--capacity').textContent = `${dataList.offer.rooms} комнат(ы) для ${dataList.offer.guests} гостей(я)`;
   advertElement.querySelector('.popup__text--time').textContent = `Заезд после ${dataList.offer.checkin} выезд до ${dataList.offer.checkout}`;
   if (dataList.offer.features) {
     const modifiers = dataList.offer.features.map((feature) => `popup__feature--${feature}`);

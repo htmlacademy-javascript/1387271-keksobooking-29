@@ -1,6 +1,7 @@
 import { sendData } from './api.js';
 import { onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc} from './util.js';
 import { resetData } from './map.js';
+import { resetPhotos } from './upload.js';
 const BOOKING_MIN_PRICE = {
   'palace': 10000,
   'flat': 1000,
@@ -27,7 +28,7 @@ const timeOutformElement = addformElement.querySelector('#timeout');
 const sliderPriceElement = addformElement.querySelector('.ad-form__slider');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-
+const coordinatesInputElement = document.querySelector('#address');
 //функция по инициализации неактивного состояния формы
 const disactiveForm = (form)=>{
   form.classList.add(`${form.classList[0]}--disabled`);
@@ -183,10 +184,15 @@ const validateForm = ()=>{
   capacityformElement.addEventListener('change',onValidateCapacityRooms);
   roomNumberformElement.addEventListener('change',onValidateCapacityRooms);
 };
+const setAdress = (LatLng)=>{
+  coordinatesInputElement.value = `${LatLng.lat} ${LatLng.lng}`;
+};
 const resetForm = ()=>{
   mapfiltersElement.reset();
   addformElement.reset();
   pristine.reset();
   sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
+  resetPhotos();
 };
-export {toDisactiveForms,toActiveForms,validateForm,addformElement,mapfiltersElement,resetForm,errorTemplate};
+
+export {toDisactiveForms,toActiveForms,validateForm,addformElement,mapfiltersElement,resetForm,errorTemplate,setAdress};
