@@ -192,7 +192,6 @@ const resetForm = ()=>{
   addformElement.reset();
   pristine.reset();
   sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
-  //setAdress(TOKIO_LAT_LNG_);
   resetPhotos();
 };
 
