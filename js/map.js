@@ -99,4 +99,4 @@ const resetData = ()=>{
   }, 1);
 };
 resetButtonElement.addEventListener('click',resetData);
-export {mapInit,resetData,createAdvertsMarkers,TOKIO_LAT_LNG_};
+export {onGetDataMap,resetData,createAdvertsMarkers,TOKIO_LAT_LNG_};
