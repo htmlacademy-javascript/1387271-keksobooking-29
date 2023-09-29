@@ -48,12 +48,9 @@ const mapInit = (onMapLoad)=>{
   });
 };
 
-//mapInit();
-//const markerGroup = L.layerGroup().addTo(map);
-
 //функция по созданию других маркеров
-const createOtherMarkets = (data)=>{
-  const markerGroup = L.layerGroup().addTo(map);
+const createOtherMarkets = (data,markerGroup)=>{
+
   const marker = L.marker(
     {
       lat:data.location.lat,
@@ -68,10 +65,11 @@ const createOtherMarkets = (data)=>{
 };
 //создаем маркеры на основе данных полученных с сервера
 const createAdvertsMarkers = (data) => {
+  const markerGroup = L.layerGroup().addTo(map);
   map.closePopup();
   markerGroup.clearLayers();
   data.forEach((listElement) => {
-    createOtherMarkets(listElement);
+    createOtherMarkets(listElement,markerGroup);
   });
 };
 function onGetDataMap () {
