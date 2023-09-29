@@ -30,9 +30,11 @@ const mainPinMarker = L.marker(TOKIO_LAT_LNG_, {
 });
 
 //инициализация карты
-const mapInit = ()=>{
+const mapInit = (onMapLoad)=>{
   map = L.map('map-canvas')
-    .on('load',onGetDataMap)
+    .on('load',() => {
+      onMapLoad(TOKIO_LAT_LNG_);
+    })
     .setView(TOKIO_LAT_LNG_, ZOOM);
   L.tileLayer(
     TILE_LAYER,{attribution: ATTRIBUTION,}).addTo(map);
@@ -46,7 +48,7 @@ const mapInit = ()=>{
   });
 };
 
-mapInit();
+//mapInit();
 const markerGroup = L.layerGroup().addTo(map);
 
 //функция по созданию других маркеров
@@ -72,9 +74,10 @@ const createAdvertsMarkers = (data) => {
   });
 };
 function onGetDataMap () {
-  setAdress(TOKIO_LAT_LNG_);
+  //setAdress(TOKIO_LAT_LNG_);
   getData(
     (dataList) => {
+      mapInit(setAdress);
       createAdvertsMarkers(dataList.slice(0, COUNT_BOOKING));
       initFilters(dataList.slice());
       toActiveForms();
@@ -96,4 +99,4 @@ const resetData = ()=>{
   }, 1);
 };
 resetButtonElement.addEventListener('click',resetData);
-export {resetData,createAdvertsMarkers,TOKIO_LAT_LNG_};
+export {mapInit,resetData,createAdvertsMarkers,TOKIO_LAT_LNG_};
