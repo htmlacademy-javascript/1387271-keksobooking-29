@@ -49,10 +49,11 @@ const mapInit = (onMapLoad)=>{
 };
 
 //mapInit();
-const markerGroup = L.layerGroup().addTo(map);
+//const markerGroup = L.layerGroup().addTo(map);
 
 //функция по созданию других маркеров
 const createOtherMarkets = (data)=>{
+  const markerGroup = L.layerGroup().addTo(map);
   const marker = L.marker(
     {
       lat:data.location.lat,
