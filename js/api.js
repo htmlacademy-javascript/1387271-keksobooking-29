@@ -1,6 +1,6 @@
 import{toDisactiveForms} from './form.js';
 import{showMessage} from './util.js';
-const PATH_URL_GET = 'https://29.javascript.pages.academy/keksobooking/dat';
+const PATH_URL_GET = 'https://29.javascript.pages.academy/keksobooking/data';
 const PATH_URL_POST = 'https://29.javascript.pages.academy/keksobooking/';
 const getData = (onSuccess) => {
   fetch(PATH_URL_GET)

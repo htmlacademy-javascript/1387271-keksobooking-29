@@ -108,9 +108,9 @@ const initSlider = ()=>{
   sliderPriceElement.noUiSlider.on('update',() =>{
     addformPriceElement.value = sliderPriceElement.noUiSlider.get();
   });
-  housingTypeInputElement.addEventListener('change',()=>{
+  /*housingTypeInputElement.addEventListener('change',()=>{
     addformPriceElement.value = BOOKING_MIN_PRICE[housingTypeInputElement.value];
-  });
+  });*/
   addformPriceElement.addEventListener('input', ()=> {
     sliderPriceElement.noUiSlider.set(addformPriceElement.value);
   });
@@ -126,10 +126,10 @@ const onValidateCapacityRooms = ()=>{
 };
 //меняем тип жилья и отражаем минимальную стоимость
 const onChangehousingType = ()=>{
-  addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
-  addformPriceElement.placeholder = BOOKING_MIN_PRICE[housingTypeInputElement.value];
-  sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
-
+  //addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
+  //addformPriceElement.placeholder = BOOKING_MIN_PRICE[housingTypeInputElement.value];
+  //sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
+  pristine.validate(addformPriceElement);
 };
 const blockSubmitButton = () => {
   submitFormButton.disabled = true;
