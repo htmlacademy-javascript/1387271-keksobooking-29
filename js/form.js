@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import { onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc} from './util.js';
-import { resetData } from './map.js';
+import { resetAllElements } from './map.js';
 import { resetPhotos } from './upload.js';
 const BOOKING_MIN_PRICE = {
   'palace': 10000,
@@ -53,10 +53,7 @@ const toDisactiveForms = ()=>{
   disactiveForm(addformElement);
   disactiveForm(mapfiltersElement);
 };
-const toActiveForms = ()=>{
-  activeForm(addformElement);
-  activeForm(mapfiltersElement);
-};
+
 
 //валидация полей  формы
 //создание объекта библиотеки pristine
@@ -108,9 +105,7 @@ const initSlider = ()=>{
   sliderPriceElement.noUiSlider.on('update',() =>{
     addformPriceElement.value = sliderPriceElement.noUiSlider.get();
   });
-  /*housingTypeInputElement.addEventListener('change',()=>{
-    addformPriceElement.value = BOOKING_MIN_PRICE[housingTypeInputElement.value];
-  });*/
+
   addformPriceElement.addEventListener('input', ()=> {
     sliderPriceElement.noUiSlider.set(addformPriceElement.value);
   });
@@ -126,9 +121,6 @@ const onValidateCapacityRooms = ()=>{
 };
 //меняем тип жилья и отражаем минимальную стоимость
 const onChangehousingType = ()=>{
-  //addformPriceElement.min = BOOKING_MIN_PRICE[housingTypeInputElement.value];
-  //addformPriceElement.placeholder = BOOKING_MIN_PRICE[housingTypeInputElement.value];
-  //sliderPriceElement.noUiSlider.set(BOOKING_MIN_PRICE[housingTypeInputElement.value]);
   pristine.validate(addformPriceElement);
 };
 const blockSubmitButton = () => {
@@ -156,7 +148,7 @@ function showErrorMessage(){
 const onSendSuccess = ()=>{
   showSuccessMessage();
   unblockSubmitButton();
-  resetData();
+  resetAllElements();
 };
 const onSendError = ()=>{
   showErrorMessage();
@@ -195,4 +187,4 @@ const resetForm = ()=>{
   resetPhotos();
 };
 
-export {toDisactiveForms,toActiveForms,validateForm,addformElement,mapfiltersElement,resetForm,errorTemplate,setAdress};
+export {toDisactiveForms,activeForm,validateForm,addformElement,mapfiltersElement,resetForm,errorTemplate,setAdress};

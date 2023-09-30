@@ -1,6 +1,6 @@
 import { renderAdvert } from './render-advert.js';
 import {getData} from './api.js';
-import { toActiveForms,resetForm,setAdress} from './form.js';
+import { activeForm,addformElement,mapfiltersElement,resetForm,setAdress} from './form.js';
 import { initFilters } from './filter.js';
 const COUNT_BOOKING = 10;
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -12,6 +12,7 @@ const TOKIO_LAT_LNG_ = {
 };
 const resetButtonElement = document.querySelector('.ad-form__reset');
 let map = null;
+let markerGroup = null;
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
   iconSize: [52, 52],
@@ -33,6 +34,7 @@ const mainPinMarker = L.marker(TOKIO_LAT_LNG_, {
 const mapInit = (onMapLoad)=>{
   map = L.map('map-canvas')
     .on('load',() => {
+      activeForm(addformElement);
       onMapLoad(TOKIO_LAT_LNG_);
     })
     .setView(TOKIO_LAT_LNG_, ZOOM);
@@ -49,7 +51,7 @@ const mapInit = (onMapLoad)=>{
 };
 
 //функция по созданию других маркеров
-const createOtherMarkets = (data,markerGroup)=>{
+const createOtherMarkets = (data)=>{
 
   const marker = L.marker(
     {
@@ -65,26 +67,27 @@ const createOtherMarkets = (data,markerGroup)=>{
 };
 //создаем маркеры на основе данных полученных с сервера
 const createAdvertsMarkers = (data) => {
-  const markerGroup = L.layerGroup().addTo(map);
+  if(markerGroup){
+    markerGroup.clearLayers();
+  }
+  markerGroup = L.layerGroup().addTo(map);
   map.closePopup();
-  markerGroup.clearLayers();
   data.forEach((listElement) => {
     createOtherMarkets(listElement,markerGroup);
   });
 };
 function onGetDataMap () {
-  //setAdress(TOKIO_LAT_LNG_);
   getData(
     (dataList) => {
       mapInit(setAdress);
       createAdvertsMarkers(dataList.slice(0, COUNT_BOOKING));
       initFilters(dataList.slice());
-      toActiveForms();
+      activeForm(mapfiltersElement);
     },
   );
 }
 //функция по сбросу значений
-const resetData = ()=>{
+const resetAllElements = ()=>{
   mainPinMarker.setLatLng({
     lat: TOKIO_LAT_LNG_.lat,
     lng: TOKIO_LAT_LNG_.lng,
@@ -92,10 +95,9 @@ const resetData = ()=>{
   map.setView(TOKIO_LAT_LNG_, ZOOM);
   map.closePopup();
   resetForm();
-  onGetDataMap();
   setTimeout(() => {
     setAdress(TOKIO_LAT_LNG_);
   }, 1);
 };
-resetButtonElement.addEventListener('click',resetData);
-export {onGetDataMap,resetData,createAdvertsMarkers,TOKIO_LAT_LNG_};
+resetButtonElement.addEventListener('click',resetAllElements);
+export {onGetDataMap,resetAllElements,createAdvertsMarkers,TOKIO_LAT_LNG_};
