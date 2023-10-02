@@ -88,7 +88,7 @@ function onGetDataMap () {
   );
 }
 //функция по сбросу значений
-const onResetAllElements = ()=>{
+const onResetButtonClick = ()=>{
   mainPinMarker.setLatLng({
     lat: TOKIO_LAT_LNG_.lat,
     lng: TOKIO_LAT_LNG_.lng,
@@ -100,5 +100,5 @@ const onResetAllElements = ()=>{
     setAdress(TOKIO_LAT_LNG_);
   }, 1);
 };
-resetButtonElement.addEventListener('click',onResetAllElements);
-export {onGetDataMap,onResetAllElements,createAdvertsMarkers,TOKIO_LAT_LNG_};
+resetButtonElement.addEventListener('click',onResetButtonClick);
+export {onGetDataMap,onResetButtonClick,createAdvertsMarkers,TOKIO_LAT_LNG_};
