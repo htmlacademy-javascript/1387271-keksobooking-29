@@ -34,7 +34,7 @@ const mainPinMarker = L.marker(TOKIO_LAT_LNG_, {
 const mapInit = (onMapLoad)=>{
   map = L.map('map-canvas')
     .on('load',() => {
-      activeForm(addformElement);
+
       onMapLoad(TOKIO_LAT_LNG_);
     })
     .setView(TOKIO_LAT_LNG_, ZOOM);
@@ -80,6 +80,7 @@ function onGetDataMap () {
   getData(
     (dataList) => {
       mapInit(setAdress);
+      activeForm(addformElement);
       createAdvertsMarkers(dataList.slice(0, COUNT_BOOKING));
       initFilters(dataList.slice());
       activeForm(mapfiltersElement);
@@ -87,7 +88,7 @@ function onGetDataMap () {
   );
 }
 //функция по сбросу значений
-const resetAllElements = ()=>{
+const onResetAllElements = ()=>{
   mainPinMarker.setLatLng({
     lat: TOKIO_LAT_LNG_.lat,
     lng: TOKIO_LAT_LNG_.lng,
@@ -99,5 +100,5 @@ const resetAllElements = ()=>{
     setAdress(TOKIO_LAT_LNG_);
   }, 1);
 };
-resetButtonElement.addEventListener('click',resetAllElements);
-export {onGetDataMap,resetAllElements,createAdvertsMarkers,TOKIO_LAT_LNG_};
+resetButtonElement.addEventListener('click',onResetAllElements);
+export {onGetDataMap,onResetAllElements,createAdvertsMarkers,TOKIO_LAT_LNG_};
