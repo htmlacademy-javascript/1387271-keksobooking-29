@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import { onSuccessMessageExitClick,onSuccessMessageExitEsc,onErrorMessageExitClick,onErrorMessageExitEsc} from './util.js';
-import { resetAllElements } from './map.js';
+import { onResetButtonClick} from './map.js';
 import { resetPhotos } from './upload.js';
 const BOOKING_MIN_PRICE = {
   'palace': 10000,
@@ -148,7 +148,7 @@ function showErrorMessage(){
 const onSendSuccess = ()=>{
   showSuccessMessage();
   unblockSubmitButton();
-  resetAllElements();
+  onResetButtonClick();
 };
 const onSendError = ()=>{
   showErrorMessage();
